@@ -12,6 +12,10 @@ Only if there is special setup. If you are running python locally there is no ne
     }
 ```
 
+## Install npm dependencies
+
+### `npm install`
+
 ## Available Scripts
 
 In the project directory, you can run:

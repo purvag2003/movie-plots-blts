@@ -38,7 +38,7 @@ data = "../data/movie_plots.csv"
 
 Start development server from ``movie-plot-api`` dir.
 ```shell script
-python3 dev.py
+python3 run.py
 ``` 
 
 ## Production
