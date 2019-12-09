@@ -20,6 +20,22 @@ pip3 install -r requirements.txt
 
 ## Development
 
+Update database connection strings in `run.py`
+
+```python
+user = 'root'
+password = ''
+host = '127.0.0.1'
+database = "movies"
+```
+
+Provide file location in `run.py`. `movie_plots.csv` is not committed with this code. 
+Download the file from google docs or provide full path to existing file
+
+```python
+data = "../data/movie_plots.csv"
+```
+
 Start development server from ``movie-plot-api`` dir.
 ```shell script
 python3 dev.py
