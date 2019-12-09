@@ -6,7 +6,7 @@ from .model.movie import Movie
 
 class MovieStore:
     # TODO: Ideally select only the required fields explicitly
-    SELECT_QUERY = "SELECT * FROM movies.movie LIMIT {} OFFSET {}"
+    SELECT_QUERY = "SELECT * FROM movies.movie title"
 
     UPDATE_QUERY = "UPDATE `movies`.`movie` " \
                    "SET `release_year` = %(release_year)s, " \
@@ -22,12 +22,25 @@ class MovieStore:
     def __init__(self):
         self.cnx = None
 
-    def list(self, page, limit):
+    def list(self, page, limit, title=None):
         cursor = self.get_connection().cursor()
         offset = page * limit
 
-        cursor.execute(MovieStore.SELECT_QUERY.format(limit, offset))
+        sql = MovieStore.SELECT_QUERY
+
+        # filter if required
+        if title is not None:
+            sql += " WHERE title LIKE '%{}%'".format(title)
+
+        # add limit
+        sql += " LIMIT {} OFFSET {} ".format(limit, offset)
+
+        # TODO: Delete this log
+        print(sql)
+
+        cursor.execute(sql)
         movies = []
+
 
         for (id, release_year, title, origin, director, cast, genre, wiki, plot) in cursor:
             print("{}, {}, ()".format(id, release_year, title))

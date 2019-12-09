@@ -51,7 +51,8 @@ class DataImport:
                             'plot': row[7],
                         }
                         cursor.execute(DataImport.INSERT_RECORD_TMPL, movie_data)
-                        if line_count % 10:
+                        if line_count % 100:
+                            print(f'Processed {line_count} lines.')
                             cnx.commit()
                         line_count += 1
 

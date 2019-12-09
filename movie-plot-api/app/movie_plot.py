@@ -23,9 +23,14 @@ def index():
 # Define the index route
 @app.route("/movies", methods=['GET'])
 def movies():
+
+    args = request.args
+    title = args.get('title', None)
+
     movies_records = store.list(
         page=0,
-        limit=10
+        limit=10,
+        title=title
     )
     return _movies_to_json(movies_records)
 

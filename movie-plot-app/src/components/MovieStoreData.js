@@ -7,9 +7,16 @@ class MovieStoreData {
         return "http://127.0.0.1:5000/movies"
     }
 
-    static async getData() {
-        let res = await fetch(MovieStoreData.endpoint)
-        console.log(res)
+    static async getData(filter) {
+
+        let endpoint = MovieStoreData.endpoint + "?"
+
+        if(filter['title']) {
+            endpoint += "title=" + filter['title']
+        }
+
+        let res = await fetch(endpoint)
+        console.log("result ", res)
         return res.json()
     }
 
