@@ -50,7 +50,6 @@ class DataImport:
                             'wiki': row[6],
                             'plot': row[7],
                         }
-                        print("Save {}".format(movie_data))
                         cursor.execute(DataImport.INSERT_RECORD_TMPL, movie_data)
                         if line_count % 10:
                             cnx.commit()

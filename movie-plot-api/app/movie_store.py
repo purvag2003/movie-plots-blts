@@ -1,6 +1,5 @@
 import mysql.connector
 from flask import current_app as app
-from mysql.connector import errorcode
 
 from .model.movie import Movie
 
@@ -8,6 +7,17 @@ from .model.movie import Movie
 class MovieStore:
     # TODO: Ideally select only the required fields explicitly
     SELECT_QUERY = "SELECT * FROM movies.movie LIMIT {} OFFSET {}"
+
+    UPDATE_QUERY = "UPDATE `movies`.`movie` " \
+                   "SET `release_year` = %(release_year)s, " \
+                   "`title` =  %(title)s, " \
+                   "`origin` = %(origin)s, " \
+                   "`director` = %(director)s, " \
+                   "`cast` =  %(cast)s, " \
+                   "`genre` = %(genre)s, " \
+                   "`wiki` =  %(wiki)s, " \
+                   "`plot` = %(plot)s" \
+                   "WHERE (`id` = %(id)s);"
 
     def __init__(self):
         self.cnx = None
@@ -36,6 +46,29 @@ class MovieStore:
 
         cursor.close()
         return movies
+
+    def save(self, id, movie_record):
+        print("{}, {}".format(id, movie_record))
+
+        update_record = {
+            'id': id,
+            'release_year': movie_record['release_year'],
+            'title': movie_record['title'],
+            'origin': movie_record['origin'],
+            'director': movie_record['director'],
+            'cast': movie_record['cast'],
+            'genre': movie_record['genre'],
+            'wiki': movie_record['wiki'],
+            'plot': movie_record['plot'],
+        }
+
+        cnx = self.get_connection()
+        cursor = cnx.cursor()
+        cursor.execute(MovieStore.UPDATE_QUERY, update_record)
+
+        # TODO: Needs research on what's the proper way to handle connections and cursors
+        cnx.commit()
+        cursor.close()
 
     def get_connection(self):
         # TODO: Better way to manage and close connection
